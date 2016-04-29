@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="RHSPUPG" transaction-type="JTA">
+    <jta-data-source>jdbc/pg</jta-data-source>
+    <class>pg.entities.Acumulados</class>
+    <class>pg.entities.Agregados</class>
+    <class>pg.entities.Cadastros</class>
+    <class>pg.entities.DocumentosIdentificacao</class>
+    <class>pg.entities.Enderecos</class>
+    <class>pg.entities.FinEntidadesInternas</class>
+    <class>pg.entities.FuncoesInternas</class>
+    <class>pg.entities.FuncoesOficiais</class>
+    <class>pg.entities.GruposEd</class>
+    <class>pg.entities.HabsLiters</class>
+    <class>pg.entities.InfoCustos</class>
+    <class>pg.entities.InfoEmpresas</class>
+    <class>pg.entities.InfoGeral</class>
+    <class>pg.entities.InfoProfs</class>
+    <class>pg.entities.ParEd</class>
+    <class>pg.entities.ParMes</class>
+    <class>pg.entities.QacAreasNegocio</class>
+    <class>pg.entities.QacCodigosPostais</class>
+    <class>pg.entities.QacConcelhos</class>
+    <class>pg.entities.QacDistritos</class>
+    <class>pg.entities.QacEmpresas</class>
+    <class>pg.entities.QacEstabelecimentos</class>
+    <class>pg.entities.QacEstruturas</class>
+    <class>pg.entities.QacFreguesias</class>
+    <class>pg.entities.QacPaises</class>
+    <class>pg.entities.RemuneracoesEmpregado</class>
+    <class>pg.entities.Situacoes</class>
+    <class>pg.entities.TipoHorariosSemanais</class>
+    <class>pg.entities.TiposDeContrato</class>
+    <class>pg.entities.TiposDocumento</class>
+    <class>pg.entities.UserInfoContratos</class>
+    <class>pg.entities.QacOrganizerDetails</class>
+    <class>pg.entities.QacEstruturasFicticia</class>
+    <class>pg.entities.InfoEmpresasFicticia</class>
+    <class>pg.entities.PayIrsNre</class>
+    <class>pg.entities.PayIrsNreDescontos</class>
+    <class>pg.entities.PayIrsNreGrupos</class>
+    <class>pg.entities.PayIrsNreTrend</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <properties>
+      <property name="eclipselink.logging.level" value="FINE"/>
+    </properties>
+  </persistence-unit>
+  <persistence-unit name="RHSPU" transaction-type="JTA">
+    <jta-data-source>jdbc/myDatasource</jta-data-source>
+    <class>comp.entities.GrupoAcesso</class>
+    <class>comp.entities.UtilizadorGrupo</class>
+    <class>comp.entities.Utilizadores</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties/>
+  </persistence-unit>
+</persistence>
