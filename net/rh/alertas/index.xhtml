@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="/net/template.xhtml">
+
+            <ui:define name="title">
+                Colaborador
+            </ui:define>
+
+            <ui:define name="body">
+                <p:dashboard model="#{dashBoardController.model}">
+                    <p:panel id="cd1" header="Alertas" >
+                        <h:form prependId="false" >
+                        <p:dataTable value="#{dashBoardController.demitidosVinculo}" var="demitidoVinculo" 
+                                     emptyMessage="Todos os demitidos sem vínculo " >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nre"/>
+                            </f:facet>	
+                            <h:outputText value="#{demitidoVinculo.cadastros.nre}" style="color: red;"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descritivo"/>
+                            </f:facet>	
+                            <h:outputText value="Demitido com vínculo" style="color: red;"  />						
+                        </p:column>
+                        </p:dataTable>
+                      </h:form>
+                      <p/>  
+                      <h:form prependId="false" >
+                            <p:dataTable value="#{dashBoardController.empregSemVinculo}" var="empregadosSemVinculo" 
+                                         emptyMessage="Todos os colaboradores com vínculo " >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nre"/>
+                            </f:facet>	
+                            <h:outputText value="#{empregadosSemVinculo.get('nre')}" style="color: red;"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descritivo"/>
+                            </f:facet>	
+                            <h:outputText value="Colaborador sem vínculo" style="color: red;" />						
+                        </p:column>                                
+                                
+                        </p:dataTable>
+                      </h:form>  
+                      <p/>
+                        <h:form prependId="false" >
+                            <p:dataTable value="#{dashBoardController.contratadosSemVinculo}" var="contratadosSemVinculo" 
+                                         emptyMessage="Todos os Contratados com vínculo " >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nre"/>
+                            </f:facet>	
+                            <h:outputText value="#{contratadosSemVinculo.cadastros.nre}" style="color: red;"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descritivo"/>
+                            </f:facet>	
+                            <h:outputText value="data de vínculo ultrapassada" style="color: red;" />						
+                        </p:column>                                
+                                
+                        </p:dataTable>
+      
+                      </h:form>
+                    </p:panel>
+                    
+                </p:dashboard>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

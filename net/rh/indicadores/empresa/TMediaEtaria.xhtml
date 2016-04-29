@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+    <ui:composition template="/net/template.xhtml">
+    <ui:define name="title">
+        Indicadores de Gestão 
+    </ui:define>    
+    <ui:define name="body">
+        <ui:include src="./../menubar.xhtml" /> 
+            <br/>
+        <p:panel id="cd2"  header="Média Etária" > 
+            <h:panelGrid columns="3" >
+            <h:form prependId="false" >
+                <p:dataTable value="#{qPIndicadoresController.mediaEtaria}" var="mediaEtaria" style="width: 200px " >
+              <f:facet name="header">
+                    <h:outputText value="Actual"/>
+              </f:facet> 
+              <p:column>
+                <f:facet name="header">
+                    &nbsp;<br/><h:outputText value="Empresas"/><br/>&nbsp; 
+                </f:facet>	
+                <h:outputText value="#{mediaEtaria.get('siglaE')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Média"/>
+                </f:facet>	
+                <h:outputText value="#{mediaEtaria.get('media')}" >
+                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+            </p:column>
+                         <f:facet name="footer">
+                           &nbsp;
+                       </f:facet>          
+            </p:dataTable>
+          </h:form>   
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+                        <h:form prependId="false" >
+                            <p:dataTable value="#{histQPController.porMediaEtaria}" var="item" id="tblbase"
+                                        rows="10" paginator="true" paginatorPosition="bottom"
+                                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                                            {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="5,10,15,20 "  style="width: 200px "  >
+                            <f:facet name="header">
+                                <h:outputText value="Histórico"/>
+                            </f:facet>	
+                                <p:column> 
+                              <f:facet name="header">
+                                <h:panelGroup layout="block" style="text-align: left;" >
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0"/>
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0"/>
+                                </h:commandLink> 
+                                </h:panelGroup>
+                            </f:facet>         
+                             </p:column>   
+                        <p:column sortBy="#{item.empresa}" filterBy="#{item.empresa}" >
+                            <f:facet name="header">
+                                <h:outputText value="Empresas"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('empresa')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.initState}" filterBy="#{item.initState}">
+                            <f:facet name="header">
+                                <h:outputText value="Ano"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('ano')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.level}" filterBy="#{item.level}">
+                            <f:facet name="header">
+                                <h:outputText value="Mês"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('mes')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Média"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('media')}">
+                                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>						
+                        </p:column>      
+                      </p:dataTable>
+                      </h:form>                          
+            </h:panelGrid>
+            
+           <p:lineChart id="porGeneroBanif" value="#{histQPController.porMediaEtariaEmpresaModel}" title="Total por Media Etária" 
+                        legendPosition="e"   style="height:500px;margin-top:10px;" />  
+            
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/net/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Histórico do Quadros de Pessoal por Direcção / Estabelecimento"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <ui:include src="./menubar.xhtml" /> 
+            <h:form id="form"  >
+                <h:panelGroup id="messagePanel" layout="block">
+                    <p:messages />
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListEnqFuncaoCompetenciaEmpty}" rendered="#{histQPDireccaoEstabController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{histQPDireccaoEstabController.items.rowCount > 0}">
+                    <p:dataTable value="#{histQPDireccaoEstabController.items}" var="item" id="tblbase"
+                                 rows="10" paginator="true" paginatorPosition="bottom"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15,20 ">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0" />
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0" />
+                                </h:commandLink>
+                            </f:facet>                           
+                            <h:commandLink action="#{histQPDireccaoEstabController.doPDF()}"  title="#{bundle.ExportPDFTitle}" value="#{bundle.ExportPDFLink}" styleClass="ui-state-default " style="background: transparent; border: 0px;margin-left: 15px;" />                           
+                            <p:commandLink onclick="total.show()" update=":form:detalhe" title="Quadro Sintese" styleClass="ui-icon ui-icon-search" style="float: left; margin: 0 4px;"   >
+                               <f:setPropertyActionListener value="#{item}" target="#{histQPDireccaoEstabController.current}" /> 
+                             </p:commandLink>
+                        </p:column>
+                       <p:column sortBy="#{item.empresa}" filterBy="#{item.empresa}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Empresa" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('siglaE')}" />    
+                      </p:column>  
+                        
+                       <p:column sortBy="#{item.initState}" filterBy="#{item.initState}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Ano" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('ano')}" />    
+                      </p:column>
+                       <p:column sortBy="#{item.level}" filterBy="#{item.level}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Mês" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('mes')}" />    
+                      </p:column>
+                        
+                       <p:column sortBy="#{item.vlr28}" filterBy="#{item.vlr28}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Código" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('cdSbu')}" />    
+                      </p:column>
+                      <p:column sortBy="#{item.vlr33}" filterBy="#{item.vlr33}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Abr 1ª Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('dsAbrv')}" />    
+                      </p:column>
+                        <p:column sortBy="#{item.vlr29}" filterBy="#{item.vlr29}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Órgão 1º Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('dsComp')}" />    
+                        </p:column> 
+
+                      <p:column sortBy="#{item.vlr25}" filterBy="#{item.vlr25}" >
+                        <f:facet name="header" >
+                            <h:outputText value="siglaEstab" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('siglaEstab')}" />    
+                        </p:column>  
+                      <p:column sortBy="#{item.vlr26}" filterBy="#{item.vlr26}" >
+                        <f:facet name="header" >
+                            <h:outputText value="cdEstab" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('cdEstab')}" />    
+                        </p:column>  
+                      <p:column sortBy="#{item.vlr27}" filterBy="#{item.vlr27}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Estabelecimento" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('dsEstab')}" />    
+                        </p:column>                          
+                        
+                    </p:dataTable>
+                </h:panelGroup>
+                <br />&nbsp;
+                
+                  <p:dialog width="270"
+                    showEffect="explode" hideEffect="explode"  
+                    header="Quadro Sintese"  widgetVar="total"> 
+                    <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">  
+                         <f:facet name="start">  
+                            <h:graphicImage value="#{resource['icons:ajax-loader.gif']}" />   
+                        </f:facet>        
+                        <f:facet name="complete">  
+                            <h:outputText value="" />  
+                        </f:facet>  
+                    </p:ajaxStatus>
+                    <h:panelGrid columns="2" id="detalhe" >
+                       <h:outputText value="Órgão:" />
+                       <h:outputText value="#{histQPDireccaoEstabController.qpt.designacao}" />   
+                       <h:outputText value="Quadro:"/> 
+                       <h:outputText value="#{histQPDireccaoEstabController.qpt.qpMaisAdoc}" />                        
+                       <h:outputText value="Situação:"/> 
+                       <h:outputText value="#{histQPDireccaoEstabController.qpt.situacao}" />  
+                       <h:outputText value="Vagas:"/> 
+                       <h:outputText value="#{histQPDireccaoEstabController.qpt.vagas}" /> 
+                       <h:outputText value="E.S/Vagas:"/> 
+                       <h:outputText value="#{histQPDireccaoEstabController.qpt.ESVagas}" />                        
+                    </h:panelGrid>                       
+                    <hr />
+                    <p:commandButton value="Fechar" onclick="total.hide()" type="button" />                     
+                    <p /><br/>
+            </p:dialog> 
+                
+                
+                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

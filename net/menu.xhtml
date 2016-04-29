@@ -1,0 +1,47 @@
+
+   <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                   xmlns:ui="http://java.sun.com/jsf/facelets"
+                   xmlns:p="http://primefaces.org/ui"
+                   xmlns:h="http://java.sun.com/jsf/html">  
+              <h:inputHidden id="tabId" value="#{utilizadoresMoreController.tabId}"/>
+              
+              <p:accordionPanel id="menu"  activeIndex="#{utilizadoresMoreController.tabIndex}">
+                   <p:ajax event="tabChange" listener="#{utilizadoresMoreController.onChange}" />
+                   
+                    <p:tab id="menu00" title="Recursos Humanos">
+                        <p:menu style="z-index: 1" >
+                           <p:submenu label="Quadros de Pessoal " > 
+                                <p:menuitem value="Actual" url="/net/rh/qp/DirecEstab.faces"  />  
+                                <p:menuitem value="Histórico Mensal" url="/net/rh/hist/DirecEstab.faces"  />  
+                           </p:submenu>
+                           <p:submenu label="Indicadores Gestão" > 
+                                <p:menuitem value="Por Empresa" url="/net/rh/indicadores/empresa/TaoServico.faces"  />   
+                                <p:menuitem value="Por Direcção" url="/net/rh/indicadores/direccao/TaoServico.faces"  />   
+                           </p:submenu>     
+                           <p:submenu label="Validações" > 
+                                <p:menuitem value="D.M.R." url="/net/rh/dmr/List.faces"  />
+                                <p:menuitem value=" Q.P. Mensal" url="/net/rh/qpm/index.faces"  />                  
+                           </p:submenu>     
+                           <p:submenu label="Alertas" > 
+                                <p:menuitem value="Chefias Demitidos" url="/net/rh/alertas/chefdem.faces"  />   
+                                <p:menuitem value="Sem Email" url="/net/rh/alertas/email.faces"  />   
+                                <p:menuitem value="Sem habilitações" url="/net/rh/alertas/semhab.faces"  />   
+                                <p:menuitem value="Em Estru Inactivas" url="/net/rh/alertas/inactiva.faces"  />  
+                                <p:menuitem value="Demit. com vínculo" url="/net/rh/alertas/index.faces"  />   
+                            </p:submenu>
+                         </p:menu>
+                    </p:tab> 
+
+                   
+                    <p:tab id="menu01" title="Perfil do Ultilizador">
+                        <p:menu style="z-index: 1" >
+                            <p:menuitem value="Alterar P. Chave" url="/net/emp/utilizadores/Edit.faces"  />                  
+                       </p:menu> 
+                    </p:tab> 
+                   
+                 </p:accordionPanel>     
+ 
+       
+   </ui:composition>
+
+

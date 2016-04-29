@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/net/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Quadros de Pessoal detalhado"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <ui:include src="./menubar.xhtml" /> 
+            <h:form prependId="false" >
+                <h:panelGroup id="messagePanel" layout="block">
+                    <p:messages />
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListEnqFuncaoCompetenciaEmpty}" rendered="#{infoEmpresasController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{infoEmpresasController.items.rowCount > 0}">
+                    <h:inputHidden id="tblbasesize" value="#{infoEmpresasController.tableWidth}"/>
+                    <p:dataTable value="#{infoEmpresasController.items}" var="item" id="tblbase"
+                                 rows="10" paginator="true" paginatorPosition="bottom"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15,20 ">
+                           <f:facet name="header" >
+                                <h:panelGroup layout="block" style="text-align: left;" >
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink>                               
+                                </h:panelGroup>
+                            </f:facet>
+                       <p:column sortBy="#{item.infoEmpresasPK.siglaE}" filterBy="#{item.infoEmpresasPK.siglaE}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Empresa" />
+                        </f:facet>
+                        <h:outputText value="#{item.infoEmpresasPK.siglaE}" />    
+                      </p:column>
+                      <p:column sortBy="#{item.qacEstruturas.cdSbu.dsAbrv}" filterBy="#{item.qacEstruturas.cdSbu.dsAbrv}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Abr 1ª Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.qacEstruturas.cdSbu.dsAbrv}" />    
+                      </p:column>
+                        <p:column sortBy="#{item.qacEstruturas.cdSbu.dsComp}" filterBy="#{item.qacEstruturas.cdSbu.dsComp}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Órgaõ 1º Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.qacEstruturas.cdSbu.dsComp}" />    
+                        </p:column> 
+                      <p:column sortBy="#{item.qacEstruturas.dsComp}" filterBy="#{item.qacEstruturas.dsComp}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Estrutura" />
+                        </f:facet>
+                        <h:outputText value="#{item.qacEstruturas.dsComp}" />    
+                        </p:column>
+                        <p:column sortBy="#{item.cadastros.infoGeral.qacEstabelecimentos.dsComp}" filterBy="#{item.cadastros.infoGeral.qacEstabelecimentos.dsComp}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Estabelecimento" />
+                        </f:facet>
+                        <h:outputText value="#{item.cadastros.infoGeral.qacEstabelecimentos.dsComp}" />    
+                      </p:column>
+                        <p:column sortBy="#{item.infoEmpresasPK.cadNre}" filterBy="#{item.infoEmpresasPK.cadNre}"  >
+                            <f:facet name="header">
+                                <h:outputText value="Nre"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.infoEmpresasPK.cadNre}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.cadastros.nomeRedz}" filterBy="#{item.cadastros.nomeRedz}" >
+                            <f:facet name="header">
+                                <h:outputText value="Nome"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.cadastros.nomeRedz}"  />						
+                        </p:column>
+                        <p:column sortBy=" #{item.cadastros.titulo}" filterBy="#{item.cadastros.titulo}" >
+                            <f:facet name="header">
+                                <h:outputText value="Título"/>
+                            </f:facet>	
+                            <h:outputText value=" #{item.cadastros.titulo}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.cadastros.dtNasc}" >
+                            <f:facet name="header">
+                            <h:outputText value="Dt_Nasc" />
+                        </f:facet>
+                        <h:outputText value="#{item.cadastros.dtNasc}">
+                            <f:convertDateTime pattern="dd-MM-yyyy"  />
+                        </h:outputText>
+                    </p:column>
+                        <p:column sortBy="#{item.cadastros.infoGeral.dtAdmiss}" >
+                       <f:facet name="header">
+                            <h:outputText value="Admissão" />
+                        </f:facet>
+                        <h:outputText value="#{item.cadastros.infoGeral.dtAdmiss}">
+                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>
+                    </p:column>
+                        <p:column sortBy="#{item.cadastros.cdHabLit.dsRedz}" filterBy="#{item.cadastros.cdHabLit.dsRedz}" >
+                       <f:facet name="header">
+                            <h:outputText value="Habilitações" />
+                       </f:facet>
+                       <h:outputText value="#{item.cadastros.cdHabLit.dsRedz}" />
+                    </p:column>
+                        <p:column sortBy="#{item.cadastros.infoGeral.cdGrupo}" filterBy="#{item.cadastros.infoGeral.cdGrupo}" >
+                       <f:facet name="header">
+                            <h:outputText value="Grp" />
+                        </f:facet>
+                        <h:outputText value="#{item.cadastros.infoGeral.cdGrupo}" />
+                    </p:column>
+                        <p:column sortBy="#{item.cadastros.infoGeral.cdNivel}" filterBy="#{item.cadastros.infoGeral.cdNivel}">
+                       <f:facet name="header">
+                            <h:outputText value="Nível" />
+                        </f:facet>
+                        <h:outputText value="#{item.cadastros.infoGeral.cdNivel}" />
+                    </p:column>
+                        <p:column sortBy="#{item.cadastros.infoGeral.dtNivel}" >
+                       <f:facet name="header">
+                            <h:outputText value="Dt_Nível" />
+                        </f:facet>
+                        <h:outputText value="#{item.cadastros.infoGeral.dtNivel}">
+                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                       <f:facet name="header">
+                            <h:outputText value="IHT" />
+                        </f:facet>
+                        <h:outputText value="#{remuneracoesEmpregadoController.iht(item.cadastros.nre)}" />
+                    </p:column>
+                        <p:column sortBy="#{item.cadastros.infoProfs.cdFuncao.dsRedz}" filterBy="#{item.cadastros.infoProfs.cdFuncao.dsRedz}" >         
+                       <f:facet name="header">
+                            <h:outputText value="Categoria" />
+                        </f:facet>
+                       <h:outputText value="#{item.cadastros.infoProfs.cdFuncao.dsRedz}" />
+                    </p:column>
+                        <p:column sortBy="#{item.cadastros.infoProfs.cdFuncInt.dsRedz}" filterBy="#{item.cadastros.infoProfs.cdFuncInt.dsRedz}" >
+                        <f:facet name="header">
+                            <h:outputText value="Função" />
+                        </f:facet>
+                        <h:outputText value="#{item.cadastros.infoProfs.cdFuncInt.dsRedz}" />
+                    </p:column>
+                        <p:column sortBy="#{item.cadastros.cdSituacao.dsRedz}" filterBy="#{item.cadastros.cdSituacao.dsRedz}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Situação" />
+                        </f:facet>
+                        <h:outputText value="#{item.cadastros.cdSituacao.dsRedz}" />    
+                    </p:column>
+                    </p:dataTable>
+                </h:panelGroup>
+                <br />&nbsp;
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

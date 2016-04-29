@@ -1,0 +1,250 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    
+    
+
+    <body>
+
+        <ui:composition template="/net/template.xhtml">
+
+            <ui:define name="title">
+                Validações para o Quadro de Pessoal Mensal 
+            </ui:define>
+
+            <ui:define name="body">
+                <p:dashboard model="#{qPMensalDashboard.model}">
+                    <p:panel id="cd1" header="Alertas" >
+                        <h:form prependId="false" >
+                            <p:dataTable value="#{qPMensalDashboard.demitidosVinculo}" var="demitidoVinculo" 
+                                     emptyMessage="Todos os demitidos sem vínculo " >
+                        <p:column  >
+                            <f:facet name="header">
+                                <h:outputText value="Nre"/>
+                            </f:facet>	
+                            <h:outputText value="#{demitidoVinculo.cadastros.nre}" style="color: red;"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descritivo"/>
+                            </f:facet>	
+                            <h:outputText value="Demitido com vínculo" style="color: red;"  />						
+                        </p:column>
+                        </p:dataTable>
+                      </h:form>
+                      <p/>  
+                      <h:form prependId="false" >
+                            <p:dataTable value="#{qPMensalDashboard.empregSemVinculo}" var="empregadosSemVinculo" 
+                                         emptyMessage="Todos os colaboradores com vínculo " >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nre"/>
+                            </f:facet>	
+                            <h:outputText value="#{empregadosSemVinculo.get('nre')}" style="color: red;"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descritivo"/>
+                            </f:facet>	
+                            <h:outputText value="Colaborador sem vínculo" style="color: red;" />						
+                        </p:column>                                
+                                
+                        </p:dataTable>
+                      </h:form>  
+                      <p/>
+                        <h:form prependId="false" >
+                            <p:dataTable value="#{qPMensalDashboard.contratadosSemVinculo}" var="contratadosSemVinculo" 
+                                         emptyMessage="Todos os Contratados com vínculo " >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nre"/>
+                            </f:facet>	
+                            <h:outputText value="#{contratadosSemVinculo.cadastros.nre}" style="color: red;"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Descritivo"/>
+                            </f:facet>	
+                            <h:outputText value="data de vínculo ultrapassada" style="color: red;" />						
+                        </p:column>                                
+                                
+                        </p:dataTable>
+                      </h:form>
+                    </p:panel>
+
+                    <p:panel id="cd5" header="Indicadores" >
+                       <h:form prependId="false" >
+                        <p/>                                             
+                         <h:outputLabel value="Todos os Campos"  />&nbsp;
+                         <h:selectBooleanCheckbox value="#{qPMensalDashboard.esconder}" id="esconder" />&nbsp;
+                        <h:outputLabel value="Ano" /> &nbsp;
+                        <h:selectOneMenu id="ano" value="#{qPMensalDashboard.ano}"  >
+                            <f:selectItem itemValue="2022"/>
+                            <f:selectItem itemValue="2021"/>
+                            <f:selectItem itemValue="2020"/>
+                            <f:selectItem itemValue="2019"/>
+                            <f:selectItem itemValue="2018"/>
+                            <f:selectItem itemValue="2017"/>
+                            <f:selectItem itemValue="2016"/>
+                            <f:selectItem itemValue="2015"/>
+                            <f:selectItem itemValue="2014"/>
+                            <f:selectItem itemValue="2013"/>
+                            <f:selectItem itemValue="2012"/>
+                            <f:selectItem itemValue="2011"/>
+                            <f:selectItem itemValue="2010"/>                                                     
+                        </h:selectOneMenu>
+                        &nbsp;
+                        <h:outputLabel value="Mês"/>&nbsp;
+                        <h:selectOneMenu id="mes" value="#{qPMensalDashboard.mes}" >
+                            <f:selectItem itemValue="12"/>
+                            <f:selectItem itemValue="11"/>
+                            <f:selectItem itemValue="10"/>
+                            <f:selectItem itemValue="9"/>
+                            <f:selectItem itemValue="8"/>
+                            <f:selectItem itemValue="7"/>
+                            <f:selectItem itemValue="6"/>
+                            <f:selectItem itemValue="5"/>
+                            <f:selectItem itemValue="4"/>
+                            <f:selectItem itemValue="3"/>
+                            <f:selectItem itemValue="2"/>
+                            <f:selectItem itemValue="1"/>
+                            <p:ajax update="qpm:totalAoServicoMensal, qpm:demitidos, qpm:admitidos" process="esconder, ano, mes" />
+                        </h:selectOneMenu>
+                        <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">  
+                            <f:facet name="start">  
+                                <h:graphicImage value="#{resource['icons:ajax-loader.gif']}" />   
+                            </f:facet>        
+                            <f:facet name="complete">  
+                                <h:outputText value="" />  
+                            </f:facet>  
+                        </p:ajaxStatus>
+                         <p/>
+                         
+                        <p:tabView id="qpm">
+                            <p:tab title="Total de Colaboradores">
+                                 <p:dataTable value="#{qPMensalDashboard.totalAoServicoMensal}" var="totalAoServicoMensal" id="totalAoServicoMensal" >                              
+                                        <p:column>
+                                            <f:facet name="header">
+                                                &nbsp;<br/><h:outputText value="Empresas"/><br/>&nbsp; 
+                                            </f:facet>	
+                                            <h:outputText value="#{totalAoServicoMensal.get('siglaE')}"  />						
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Total"/>
+                                            </f:facet>	
+                                            <h:outputText value="#{totalAoServicoMensal.get('total')}"  />						
+                                        </p:column>
+                                       <f:facet name="footer">
+                                           &nbsp;
+                                       </f:facet>	         
+                               </p:dataTable>
+                            </p:tab>  
+                            
+                            <p:tab title="Admitidos" >
+                                 <p:dataTable value="#{qPMensalDashboard.admitidos}" var="admitidos" id="admitidos"
+                                             emptyMessage="Não existem Admissões"  >  
+                                        <p:column rendered="#{qPMensalDashboard.esconder}" >     
+                                          <f:facet name="header">
+                                                <h:outputText value="Empresa"/>
+                                          </f:facet>	
+                                              <ui:repeat value="#{admitidos.cadastros.infoEmpresasCollection}" var="quadro">
+                                               <h:outputText value="#{quadro.infoEmpresasPK.siglaE}" rendered="#{quadro.estado=='A'}" />
+                                              </ui:repeat>					
+                                        </p:column >                             
+                                        <p:column >
+                                            <f:facet name="header">
+                                                <h:outputText value="Nre"/>
+                                            </f:facet>	
+                                            <h:outputText value="#{admitidos.cadastros.nre}" />						
+                                        </p:column>
+                                        <p:column rendered="#{qPMensalDashboard.esconder}">
+                                            <f:facet name="header">
+                                                <h:outputText value="Nome"/>
+                                            </f:facet>	
+                                            <h:outputText value="#{admitidos.cadastros.nomeRedz}" />						
+                                        </p:column >
+                                        <p:column  rendered="#{qPMensalDashboard.esconder}">
+                                            <f:facet name="header">
+                                                <h:outputText value="Data Ini"/>
+                                            </f:facet>	
+                                            <h:outputText value="#{admitidos.userInfoContratosPK.dtIni}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy" />
+                                            </h:outputText>						
+                                        </p:column >
+                                        <f:facet name="footer" >
+                                            <h:outputText value=""/>
+                                        </f:facet>    
+                                </p:dataTable>                                
+                            </p:tab>                            
+                            
+                            <p:tab title="Demitidos">
+                                <p:dataTable value="#{qPMensalDashboard.demitidos}" var="demitidos" id="demitidos"
+                                             emptyMessage="Não existem Demitidos">
+     
+                                    <p:column rendered="#{qPMensalDashboard.esconder}">     
+                                      <f:facet name="header">
+                                            <h:outputText value="Empresa"/>
+                                      </f:facet>	
+                                        <ui:repeat value="#{demitidos.cadastros.infoEmpresasCollection}" var="quadro">     
+                                              <h:outputText value="#{quadro.infoEmpresasPK.siglaE}" rendered="#{quadro.estado=='A'}" />
+                                          </ui:repeat>					
+                                    </p:column>                            
+                                    <p:column>
+                                        <f:facet name="header">
+                                            <h:outputText value="Nre"/>
+                                        </f:facet>	
+                                        <h:outputText value="#{demitidos.cadastros.nre}" />						
+                                    </p:column>
+                                    <p:column rendered="#{qPMensalDashboard.esconder}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Nome"/>
+                                        </f:facet>	
+                                        <h:outputText value="#{demitidos.cadastros.nomeRedz}" />						
+                                    </p:column>
+                                    <p:column rendered="#{qPMensalDashboard.esconder}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Data Fim"/>
+                                        </f:facet>	
+                                        <h:outputText value="#{demitidos.dtFim}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>						
+                                    </p:column>
+                                    <f:facet name="footer" >
+                                            <h:outputText value=""/>
+                                    </f:facet>    
+                                    <p:column rendered="#{qPMensalDashboard.esconder}">
+                                        <f:facet name="header">
+                                            <h:outputText value="Data Saída"/>
+                                        </f:facet>	
+                                        <h:outputText value="#{demitidos.cadastros.dtSituacao}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>						
+                                    </p:column>
+                                    <f:facet name="footer" >
+                                            <h:outputText value=""/>
+                                    </f:facet>    
+
+                                </p:dataTable>
+                            </p:tab>
+                            
+                       </p:tabView>  
+                         
+                         
+                      </h:form>
+
+                    </p:panel>
+                  
+                    
+                </p:dashboard>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

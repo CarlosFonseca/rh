@@ -1,0 +1,139 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+    <ui:composition template="/net/template.xhtml">
+    <ui:define name="title">
+        Indicadores de Gestão 
+    </ui:define>    
+    <ui:define name="body">
+        <ui:include src="./../menubar.xhtml" /> 
+            <br/>
+        <p:panel id="cd2"  header="Média Etária" > 
+            <p:accordionPanel>
+                <p:tab title="Actual" > 
+                    <h:form prependId="false" >
+                      <p:dataTable value="#{qPIndicadoresController.porMediaEtariaPorDirecao}" var="item"
+                             rows="10" paginator="true" paginatorPosition="bottom"
+                                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                                            {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="5,10,15,20 " style="width: 200px " >
+                       <p:column style="width: 460px" sortBy="#{item.infoEmpresasPK.siglaE}" filterBy="#{item.infoEmpresasPK.siglaE}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Empresa" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('siglaE')}" />    
+                      </p:column>                            
+                       <p:column sortBy="#{item.qacEstruturas.cdSbu.cdSbu}" filterBy="#{item.qacEstruturas.cdSbu.cdSbu}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Código" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('cdSbu')}" />    
+                      </p:column>
+                      <p:column sortBy="#{item.qacEstruturas.cdSbu.dsAbrv}" filterBy="#{item.qacEstruturas.cdSbu.dsAbrv}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Abr 1ª Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('dsAbrv')}" />    
+                      </p:column>
+                        <p:column sortBy="#{item.qacEstruturas.cdSbu.dsComp}" filterBy="#{item.qacEstruturas.cdSbu.dsComp}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Órgão 1º Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('dsComp')}" />    
+                        </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Média"/>
+                </f:facet>	
+                <h:outputText value="#{item.get('media')}" >
+                    <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                </h:outputText>
+
+            </p:column>
+                         <f:facet name="footer">
+                           &nbsp;
+                       </f:facet>          
+            </p:dataTable>
+          </h:form>   
+                  </p:tab>
+                    <p:tab title="Histórico">  
+                        <h:form prependId="false" >
+                            <p:dataTable value="#{histQPController.porMediaEtariaPorDirecao}" var="item" id="tblbase"
+                                        rows="10" paginator="true" paginatorPosition="bottom"
+                                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                                            {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="5,10,15,20 "  style="width: 200px "  >
+
+                              <f:facet name="header">
+                                <h:panelGroup layout="block" style="text-align: left;" >
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink> 
+                                </h:panelGroup>
+                            </f:facet>         
+                        <p:column sortBy="#{item.empresa}" filterBy="#{item.empresa}" >
+                            <f:facet name="header">
+                                <h:outputText value="Empresas"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('empresa')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.initState}" filterBy="#{item.initState}">
+                            <f:facet name="header">
+                                <h:outputText value="Ano"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('ano')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.level}" filterBy="#{item.level}">
+                            <f:facet name="header">
+                                <h:outputText value="Mês"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('mes')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.vlr28}" filterBy="#{item.vlr28}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Código" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('cdSbu')}" />    
+                      </p:column>
+                      <p:column sortBy="#{item.vlr33}" filterBy="#{item.vlr33}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Abr 1ª Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('dsAbrv')}" />    
+                      </p:column>
+                        <p:column sortBy="#{item.vlr29}" filterBy="#{item.vlr29}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Órgão 1º Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('dsComp')}" />    
+                        </p:column>                                   
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Média"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('media')}">
+                                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>						
+                        </p:column>      
+                      </p:dataTable>
+                      </h:form>                          
+                </p:tab>       
+               </p:accordionPanel> 
+        </p:panel>
+    </ui:define>
+
+</ui:composition>
+
+    </body>
+</html>

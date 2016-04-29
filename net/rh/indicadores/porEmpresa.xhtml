@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+    <ui:composition template="/net/template.xhtml">
+    <ui:define name="title">
+        Indicadores de Gestão Por Empresa
+    </ui:define>
+    
+    <ui:define name="body">
+            <ui:include src="./menubar.xhtml" /> 
+            <br/>
+        <p:panel id="cd2"  header="Indicadores de Gestão Por Empresa">
+                        <h:form prependId="false" >            
+            <p:accordionPanel>
+  
+
+                            <p:tab title="Género / Média Etária / Estrutura Etária " >
+                            <p:dataTable value="#{dashBoardController.tableauDeBordPorEmpresa}" var="tableauDeBordPorEmpresa" style="width: 200px "  >
+                         <p:columnGroup type="header">  
+                                 <p:row>  
+                                     <p:column rowspan="2" headerText="Empresa" style="border-right-width: 4px; border-right-style: ridge;"/>  
+                                     <p:column rowspan="2" headerText="Total" style="border-right-width: 4px; border-right-style: ridge;" />
+                                     <p:column colspan="2" headerText="Género" style="border-right-width: 4px; border-right-style: ridge;" />
+                                     <p:column rowspan="2" headerText="Média Etária" style="border-right-width: 4px; border-right-style: ridge;"  />
+                                     <p:column colspan="6" headerText="Estrutura Etária" />
+                                 </p:row>
+                             <p:row>
+                                 <p:column headerText="M" />
+                                 <p:column headerText="F" style="border-right-width: 4px; border-right-style: ridge;"/>
+                                 <p:column headerText="até 24 anos" />
+                                 <p:column headerText="de 25 Até 34 anos" />
+                                 <p:column headerText="de 35 Até 44 anos" />
+                                 <p:column headerText="de 45 Até 54 anos" />
+                                 <p:column headerText="de 55 Até 65 anos" />
+                                 <p:column headerText="mais de 65 anos"  />
+                             </p:row>
+                         </p:columnGroup>
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;" >
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('siglaE')}"  />						
+                        </p:column>
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;">
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('total')}"  />						
+                        </p:column>
+                        <p:column  >
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('M')}"  />						
+                        </p:column>                                
+                         <p:column style="border-right-width: 4px; border-right-style: ridge;">
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('F')}"  />						
+                        </p:column>
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;">
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('media')}">
+                                 <f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+                            </h:outputText>						
+                        </p:column>
+                        <p:column  >
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('ate_24_ano')}"  />						
+                        </p:column>                                
+                         <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('de_25_Ate_34_anos')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('de_35_Ate_44_anos')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('de_45_Ate_54_anos')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('de_55_Ate_65_anos')}"  />						
+                        </p:column>                        
+                        <p:column >
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('mais_de_65_anos')}"  />						
+                        </p:column>
+         
+                        </p:dataTable>
+                     </p:tab>
+                <p:tab title=" Níveis Contratuais / Habilitações Literárias" >       
+                            <p:dataTable value="#{dashBoardController.tableauDeBordPorEmpresa}" var="tableauDeBordPorEmpresa" style="width: 200px "  >
+                         <p:columnGroup type="header">  
+                                 <p:row>  
+                                     <p:column rowspan="2" headerText="Empresa" style="border-right-width: 4px; border-right-style: ridge;"/>  
+                                     <p:column rowspan="2" headerText="Total" style="border-right-width: 4px; border-right-style: ridge;" />
+                                     <p:column colspan="5" headerText="Níveis Contratuais" style="border-right-width: 4px; border-right-style: ridge;" />
+                                     <p:column colspan="6" headerText="Habilitações Literárias"  />
+
+                                 </p:row>
+                             <p:row>
+                                 <p:column headerText="1 a 4" />
+                                 <p:column headerText="5 a 8" />
+                                 <p:column headerText="9 a 12" />
+                                 <p:column headerText="13 a 15" />
+                                 <p:column headerText="16 a 18" style="border-right-width: 4px; border-right-style: ridge;" />
+                                 <p:column headerText="1º Cl Ens B" />
+                                 <p:column headerText="2º Cl Ens B" />
+                                 <p:column headerText="3º Cl Ens B" />
+                                 <p:column headerText="Ens Sec" />
+                                 <p:column headerText="Bacharel" />
+                                 <p:column headerText="Licenciad" />
+                             </p:row>
+                         </p:columnGroup>
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;" >
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('siglaE')}"  />						
+                        </p:column>
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;">
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('total')}"  />						
+                        </p:column>                              
+                         <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('1_a_4')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('5_a_8')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('9_a_12')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('13_a_15')}"  />						
+                        </p:column>                        
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;">
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('16_a_18')}"  />						
+                        </p:column>
+                         <p:column>	
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('1Cl_Ens_B')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('2Cl_Ens_B')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('3Cl_Ens_B')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('Ens_Sec')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('Bacharel')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('Licenciad')}"  />						
+                        </p:column>         
+                        </p:dataTable>
+                    </p:tab>
+                <p:tab title="Antiguidade" >        
+                         
+                        <p:dataTable value="#{dashBoardController.tableauDeBordPorEmpresa}" var="tableauDeBordPorEmpresa" style="width: 200px "  >
+                         <p:columnGroup type="header">  
+                                 <p:row>  
+                                     <p:column rowspan="2" headerText="Empresa" style="border-right-width: 4px; border-right-style: ridge;"/>  
+                                     <p:column rowspan="2" headerText="Total" style="border-right-width: 4px; border-right-style: ridge;" />
+                                     <p:column colspan="5" headerText="Antiguidade"  />
+
+                                 </p:row>
+                             <p:row>
+                                 <p:column headerText="até 1 ano" />
+                                 <p:column headerText="de 1 Até 5 anos" />
+                                 <p:column headerText="de 5 Até 10 anos" />
+                                 <p:column headerText="de 10 Até 15 anos" />
+                                 <p:column headerText="mais de 15 anos" /> 
+                             </p:row>
+                         </p:columnGroup>
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;" >
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('siglaE')}"  />						
+                        </p:column>
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;">
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('total')}"  />						
+                        </p:column>         
+                         <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('adm_ate_1_ano')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('adm_de_1_Ate_5_anos')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('adm_de_5_Ate_10_anos')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('adm_de_10_Ate_15_anos')}"  />						
+                        </p:column>
+                        <p:column >
+                              <h:outputText value="#{tableauDeBordPorEmpresa.get('ant_mais_de_15_anos')}"  />						
+                        </p:column>	         
+                        </p:dataTable> 
+                     </p:tab>   
+                <p:tab title="Antiguidade no Sector" >        
+                         
+                        <p:dataTable value="#{dashBoardController.tableauDeBordPorEmpresa}" var="tableauDeBordPorEmpresa" style="width: 200px "  >
+                         <p:columnGroup type="header">  
+                                 <p:row>  
+                                     <p:column rowspan="2" headerText="Empresa" style="border-right-width: 4px; border-right-style: ridge;"/>  
+                                     <p:column rowspan="2" headerText="Total" style="border-right-width: 4px; border-right-style: ridge;" />
+                                     <p:column colspan="5" headerText="Antiguidade Sector"/>
+
+                                 </p:row>
+                             <p:row>
+                                 <p:column headerText="até 1 ano" />
+                                 <p:column headerText="de 1 Até 5 anos" />
+                                 <p:column headerText="de 5 Até 10 anos" />
+                                 <p:column headerText="de 10 Até 15 anos" />
+                                 <p:column headerText="mais de 15 anos"  />
+                             </p:row>
+                         </p:columnGroup>
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;" >
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('siglaE')}"  />						
+                        </p:column>   
+                        <p:column style="border-right-width: 4px; border-right-style: ridge;">
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('total')}"  />						
+                        </p:column>
+                         <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('ant_ate_1_ano')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('ant_de_1_Ate_5_anos')}"  />						
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('ant_de_5_Ate_10_anos')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <h:outputText value="#{tableauDeBordPorEmpresa.get('ant_de_10_Ate_15_anos')}"  />						
+                        </p:column>
+                        <p:column>
+                              <h:outputText value="#{tableauDeBordPorEmpresa.get('ant_mais_de_15_anos')}"  />						
+                        </p:column>                                         
+                        </p:dataTable> 
+                     </p:tab>
+           </p:accordionPanel>           
+                      </h:form>
+        </p:panel>  
+
+    </ui:define>
+
+</ui:composition>
+
+    </body>
+</html>

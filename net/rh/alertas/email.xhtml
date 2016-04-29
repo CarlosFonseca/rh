@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="/net/template.xhtml">
+
+            <ui:define name="title">
+                Colaborador
+            </ui:define>
+
+            <ui:define name="body">
+ 
+                    <p:panel id="cd5" header="Colaboradores Sem email" >
+               
+                        <h:form prependId="false" >
+                            <p:dataTable value="#{emailController.semEmail}" var="item" id="tblbase"
+                                 rows="10" paginator="true" paginatorPosition="bottom"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15,20">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0" />
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0" />
+                                </h:commandLink>
+                            </f:facet>
+                        </p:column>
+                           <p:column sortBy="#{item.cadastros.nre}" filterBy="#{item.cadastros.nre}"  >
+                            <f:facet name="header">
+                                <h:outputText value="nre"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.cadastros.nre}"  />						
+                        </p:column>
+                           <p:column sortBy="#{item.cadastros.nomeRedz}" filterBy="#{item.cadastros.nre}"  >
+                            <f:facet name="header">
+                                <h:outputText value="Nome"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.cadastros.nomeRedz}"  />						
+                           </p:column>
+                           <p:column sortBy="#{item.cadastros.cdSituacao.dsComp}" filterBy="#{item.cadastros.cdSituacao.dsComp}" >
+                            <f:facet name="header">
+                                <h:outputText value="Situacao"/>
+                            </f:facet>	
+                               <h:outputText value="#{item.cadastros.cdSituacao.dsComp}" />						
+                        </p:column>
+                              <p:column sortBy="#{item.infoEmpresasPK.siglaE}" filterBy="#{item.infoEmpresasPK.siglaE}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Empresa" />
+                        </f:facet>
+                        <h:outputText value="#{item.infoEmpresasPK.siglaE}" />    
+                      </p:column>
+                      <p:column sortBy="#{item.qacEstruturas.cdSbu.dsAbrv}" filterBy="#{item.qacEstruturas.cdSbu.dsAbrv}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Abr 1ª Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.qacEstruturas.cdSbu.dsAbrv}" />    
+                      </p:column>
+                      <p:column sortBy="#{item.cadastros.infoGeral.cdNivel}" filterBy="#{item.cadastros.infoGeral.cdNivel}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Nível" />
+                        </f:facet>
+                        <h:outputText value="#{item.cadastros.infoGeral.cdNivel}" />    
+                      </p:column>
+                                
+                         </p:dataTable>                          
+  
+                        </h:form>                        
+                    </p:panel>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

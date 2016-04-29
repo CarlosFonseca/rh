@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>    
+<ui:composition template="/net/template.xhtml">
+
+    <ui:define name="title">
+        Validação da Declaração Mensal de Retribuição
+    </ui:define>
+
+    <ui:define name="body">
+            <br/>
+            <p:panel header="Validação da DMR" >
+                <ui:include src="./menubar.xhtml" />         
+                <h:form prependId="false"  >
+                            <br/>
+                            &nbsp;&nbsp;&nbsp;  
+                            <h:outputLabel value="Ano: "/>
+                            <h:selectOneMenu value="#{payIrsNreDescontosController.ano}">
+                                <f:selectItems value="#{payIrsNreDescontosController.anos}"/>
+                                <p:ajax update="@form"  />
+                            </h:selectOneMenu>
+                            &nbsp;&nbsp;&nbsp;  
+                            <h:outputLabel value="Mês (Acumulado) : "/>
+                            <h:selectOneMenu value="#{payIrsNreDescontosController.mes}">
+                                <f:selectItem itemLabel="1" itemValue="1" />
+                                <f:selectItem  itemLabel="2" itemValue="2" />
+                                <f:selectItem  itemLabel="3" itemValue="3" />
+                                <f:selectItem  itemLabel="4" itemValue="4" />
+                                <f:selectItem  itemLabel="5" itemValue="5" />
+                                <f:selectItem  itemLabel="6" itemValue="6" />
+                                <f:selectItem  itemLabel="7" itemValue="7" />
+                                <f:selectItem  itemLabel="8" itemValue="8" />
+                                <f:selectItem  itemLabel="9" itemValue="9" />
+                                <f:selectItem  itemLabel="10" itemValue="10" />
+                                <f:selectItem  itemLabel="11" itemValue="11" />
+                                <f:selectItem  itemLabel="12" itemValue="12" />
+                                <p:ajax update="@form"  />
+                            </h:selectOneMenu>
+                            <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">  
+                                <f:facet name="start">  
+                                    <h:graphicImage value="#{resource['icons:ajax-loader.gif']}" />   
+                                </f:facet>        
+                                <f:facet name="complete">  
+                                    <h:outputText value="" />  
+                                </f:facet>  
+                            </p:ajaxStatus>
+                             <p/>
+                    <p:dataTable value="#{payIrsNreDescontosController.dmrValidacaoPorAnoMes}" var="item" id="tblbase"
+                                 rows="10" paginator="true" paginatorPosition="bottom"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15,20 ">
+                        <f:facet name="header">
+                          <h:panelGroup layout="block" style="text-align: left;" >
+                             <h:commandLink>
+                                 <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                 <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true"/>
+                             </h:commandLink>&nbsp;
+                             <h:commandLink>
+                                 <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                 <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true"/>
+                             </h:commandLink>
+                            </h:panelGroup> 
+                         </f:facet>                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nre" />
+                            </f:facet>
+                            <h:outputText value="#{item[0]}" />
+                        </p:column>   
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nome" />
+                            </f:facet>
+                            <h:outputText value="#{item[1]}" />
+                        </p:column>   
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nif" />
+                            </f:facet>
+                            <h:outputText value="#{item[2]}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Tipo" />
+                            </f:facet>
+                            <h:outputText value="#{item[3]}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Rendimento" />
+                            </f:facet>
+                            <h:outputText value="#{item[4]}" />
+                        </p:column>   
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="V. Retido" />
+                            </f:facet>
+                            <h:outputText value="#{item[5]}" />
+                        </p:column>   
+                        <p:column >
+                            <f:facet name="header">
+                                <h:outputText value="Grp. Desconto" />
+                            </f:facet>
+                            <h:outputText value="#{item[6]}" />
+                        </p:column>   
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="V. Desconto" />
+                            </f:facet>
+                            <h:outputText value="#{item[7]}" />
+                        </p:column>   
+                    </p:dataTable>
+                </h:form> 
+            </p:panel>
+
+    </ui:define>
+
+</ui:composition>
+    </h:body>    
+</html>

@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+    <ui:composition template="/net/template.xhtml">
+    <ui:define name="title">
+               Indicadores de Gestão
+    </ui:define>
+    
+    <ui:define name="body">
+        <ui:include src="./../menubar.xhtml" /> 
+            <br/>
+                    <p:panel id="cd9" header="Total por Habilitações Literárias" >
+                <p:accordionPanel>
+                    <p:tab title="Actual" >                        
+                        <h:form prependId="false" >
+                            <p:dataTable value="#{qPIndicadoresController.totalporhabilitacao}" var="totalporhabilitacao" style="width: 1020px" >
+                       <p:column style="width: 460px">
+                            <f:facet name="header">
+                                <h:outputText value="Empresas"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporhabilitacao.get('siglaE')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="1º Cl Ens B"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporhabilitacao.get('1Cl_Ens_B')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="2º Cl Ens B"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporhabilitacao.get('2Cl_Ens_B')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="3º Cl Ens B"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporhabilitacao.get('3Cl_Ens_B')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ens Sec"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporhabilitacao.get('Ens_Sec')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Bacharel"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporhabilitacao.get('Bacharel')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Licenciad"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporhabilitacao.get('Licenciad')}"  />						
+                        </p:column>                                
+                         <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Total"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporhabilitacao.get('total')}"  />						
+                        </p:column>
+                        </p:dataTable>
+                      </h:form>
+                  </p:tab>
+                    <p:tab title="Histórico">  
+                        
+                     <h:form prependId="false" >
+                         <p:dataTable value="#{histQPController.porHabilitacao}" var="item" id="tblbase"
+                                        rows="10" paginator="true" paginatorPosition="bottom"
+                                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                                            {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="5,10,15,20 "  style="width: 1070px"  >
+                              <f:facet name="header">
+                                <h:panelGroup layout="block" style="text-align: left;" >
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink> 
+                                </h:panelGroup>
+                            </f:facet>         
+                        <p:column sortBy="#{item.empresa}" filterBy="#{item.empresa}" >
+                            <f:facet name="header">
+                                <h:outputText value="Empresas"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('empresa')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.initState}" filterBy="#{item.initState}">
+                            <f:facet name="header">
+                                <h:outputText value="Ano"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('ano')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.level}" filterBy="#{item.level}">
+                            <f:facet name="header">
+                                <h:outputText value="Mês"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('mes')}"  />						
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="1º Cl Ens B"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('1Cl_Ens_B')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="2º Cl Ens B"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('2Cl_Ens_B')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="3º Cl Ens B"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('3Cl_Ens_B')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Ens Sec"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('Ens_Sec')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Bacharel"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('Bacharel')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Licenciad"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('Licenciad')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Total"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('total')}"/>					
+                        </p:column>      
+                      </p:dataTable>
+                      </h:form>
+                </p:tab>       
+               </p:accordionPanel> 
+                    </p:panel> 
+    </ui:define>
+
+</ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="/net/template.xhtml">
+
+            <ui:define name="title">
+                Colaborador
+            </ui:define>
+
+            <ui:define name="body">
+ 
+                    <p:panel id="cd5" header="Colaboradores Sem Habilitações" >
+               
+                        <h:form prependId="false" >
+                            <p:dataTable value="#{cadastrosController.chefiasDemitidos}" var="item" id="tblbase"
+                                 rows="10" paginator="true" paginatorPosition="bottom"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15,20" emptyMessage="Não existem colaboradores ao serviço sem habilitações"  >
+                        <p:column>
+                            <f:facet name="header">
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0" />
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0" />
+                                </h:commandLink>
+                            </f:facet>
+                        </p:column>
+                           <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="nre"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.nre}"  />						
+                        </p:column>
+                           <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Nome"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.nomeRedz}"  />						
+                           </p:column>
+                           <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Situacao"/>
+                            </f:facet>	
+                               <h:outputText value="#{item.cdSituacao.dsComp}" />						
+                        </p:column>                               
+                         </p:dataTable>                          
+  
+                        </h:form>                        
+                    </p:panel>
+                
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/net/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="Quadros de Pessoal por Estrutura"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <ui:include src="./menubar.xhtml" /> 
+            <h:form id="form"  >
+                <h:panelGroup id="messagePanel" layout="block">
+                    <p:messages />
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListEnqFuncaoCompetenciaEmpty}" rendered="#{qPEstruturaController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{qPEstruturaController.items.rowCount > 0}">
+                    <p:dataTable value="#{qPEstruturaController.items}" var="item" id="tblbase"
+                                 rows="10" paginator="true" paginatorPosition="bottom"
+                                 paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                 {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15,20 ">
+                        <p:column>
+                            <f:facet name="header">
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0" />
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true" excludeColumns="0" />
+                                </h:commandLink>
+                            </f:facet>                              
+                            <h:commandLink action="#{qPEstruturaController.doPDF()}"   title="#{bundle.ExportPDFTitle}" value="#{bundle.ExportPDFLink}" styleClass="ui-state-default " style="background: transparent; border: 0px;margin-left: 30px;" />                                                            
+                       <p:commandLink onclick="total.show()" update=":form:detalhe" title="Quadro Sintese" styleClass="ui-icon ui-icon-search" style="float: left; margin: 0 4px;"   >
+                               <f:setPropertyActionListener value="#{item}" target="#{qPEstruturaController.current}" /> 
+                       </p:commandLink>
+                        </p:column>
+                       <p:column sortBy="#{item.infoEmpresasPK.siglaE}" filterBy="#{item.infoEmpresasPK.siglaE}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Empresa" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('siglaE')}" />    
+                      </p:column>                            
+                       <p:column sortBy="#{item.infoEmpresasPK.cdEstrutura}" filterBy="#{item.infoEmpresasPK.cdEstrutura}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Código" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('cdEstrutura')}" />    
+                      </p:column>
+                      <p:column sortBy="#{item.qacEstruturas.dsAbrv}" filterBy="#{item.qacEstruturas.dsAbrv}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Abr 1ª Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('dsAbrv')}" />    
+                      </p:column>
+                        <p:column sortBy="#{item.qacEstruturas.dsComp}" filterBy="#{item.qacEstruturas.dsComp}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Órgão 1º Grau" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('dsComp')}" />    
+                        </p:column> 
+                      <p:column sortBy="#{item.qacEstruturas.nrOrdem}" filterBy="#{item.qacEstruturas.nrOrdem}" >
+                        <f:facet name="header" >
+                            <h:outputText value="Ordem" />
+                        </f:facet>
+                        <h:outputText value="#{item.get('nrOrdem')}" />    
+                        </p:column>                         
+                    </p:dataTable>
+                </h:panelGroup>
+                <br />&nbsp;
+                
+            <p:dialog width="270"
+                    showEffect="explode" hideEffect="explode"  
+                    header="Quadro Sintese"  widgetVar="total"> 
+                    <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">  
+                         <f:facet name="start">  
+                            <h:graphicImage value="#{resource['icons:ajax-loader.gif']}" />   
+                        </f:facet>        
+                        <f:facet name="complete">  
+                            <h:outputText value="" />  
+                        </f:facet>  
+                    </p:ajaxStatus>
+                    <h:panelGrid columns="2" id="detalhe" >
+                       <h:outputText value="Órgão:" />
+                       <h:outputText value="#{qPEstruturaController.qpt.designacao}" />   
+                       <h:outputText value="Quadro:"/> 
+                       <h:outputText value="#{qPEstruturaController.qpt.qpMaisAdoc}" />                        
+                       <h:outputText value="Situação:"/> 
+                       <h:outputText value="#{qPEstruturaController.qpt.situacao}" />  
+                       <h:outputText value="Vagas:"/> 
+                       <h:outputText value="#{qPEstruturaController.qpt.vagas}" /> 
+                       <h:outputText value="E.S/Vagas:"/> 
+                       <h:outputText value="#{qPEstruturaController.qpt.ESVagas}" />                        
+                    </h:panelGrid>                       
+                    <hr />
+                    <p:commandButton value="Fechar" onclick="total.hide()" type="button" />                     
+                    <p /><br/>
+            </p:dialog> 
+                
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

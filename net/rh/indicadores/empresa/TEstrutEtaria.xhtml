@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+    <ui:composition template="/net/template.xhtml">
+    <ui:define name="title">
+                Indicadores de Gestão
+    </ui:define>
+    
+    <ui:define name="body">
+             <ui:include src="./../menubar.xhtml" /> 
+            <br/> 
+       <p:panel id="cd8" header="Total por Estrutura Etária" >
+            <p:accordionPanel>
+                <p:tab title="Actual" >
+            <h:form prependId="false" >
+                <p:dataTable value="#{qPIndicadoresController.totalporEstruturaEtaria}" var="totalporEstruturaEtaria" style="width: 1179px" >
+                       <p:column style="width: 460px">
+                <f:facet name="header">
+                    <h:outputText value="Empresas"/>
+                </f:facet>	
+                <h:outputText value="#{totalporEstruturaEtaria.get('siglaE')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="até 24 anos"/>
+                </f:facet>	
+                <h:outputText value="#{totalporEstruturaEtaria.get('ate_24_ano')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="de 25 Até 34 anos"/>
+                </f:facet>	
+                <h:outputText value="#{totalporEstruturaEtaria.get('de_25_Ate_34_anos')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="de 35 Até 44 anos"/>
+                </f:facet>	
+                <h:outputText value="#{totalporEstruturaEtaria.get('de_35_Ate_44_anos')}"  />						
+            </p:column>                        
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="de 45 Até 54 anos"/>
+                </f:facet>	
+                <h:outputText value="#{totalporEstruturaEtaria.get('de_45_Ate_54_anos')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="de 55 Até 65 anos"/>
+                </f:facet>	
+                <h:outputText value="#{totalporEstruturaEtaria.get('de_55_Ate_65_anos')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="mais de 65 anos"/>
+                </f:facet>	
+                <h:outputText value="#{totalporEstruturaEtaria.get('mais_de_65_anos')}"  />						
+            </p:column>                                
+             <p:column>
+                <f:facet name="header">
+                    <h:outputText value="Total"/>
+                </f:facet>	
+                <h:outputText value="#{totalporEstruturaEtaria.get('total')}"  />						
+            </p:column>       
+            </p:dataTable>
+          </h:form>
+                  </p:tab>
+                    <p:tab title="Histórico">  
+                        
+                     <h:form prependId="false" >
+                         <p:dataTable value="#{histQPController.porEstruturaEtaria}" var="item" id="tblbase"
+                                        rows="10" paginator="true" paginatorPosition="bottom"
+                                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                                            {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="5,10,15,20 "  style="width: 1070px"  >
+                              <f:facet name="header">
+                                <h:panelGroup layout="block" style="text-align: left;" >
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink> 
+                                </h:panelGroup>
+                            </f:facet>
+                        <p:column sortBy="#{item.empresa}" filterBy="#{item.empresa}" >
+                            <f:facet name="header">
+                                <h:outputText value="Empresas"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('empresa')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.initState}" filterBy="#{item.initState}">
+                            <f:facet name="header">
+                                <h:outputText value="Ano"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('ano')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.level}" filterBy="#{item.level}">
+                            <f:facet name="header">
+                                <h:outputText value="Mês"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('mes')}"  />						
+                        </p:column>
+                        
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="até 24 anos"/>
+                </f:facet>	
+                <h:outputText value="#{item.get('ate_24_ano')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="de 25 Até 34 anos"/>
+                </f:facet>	
+                <h:outputText value="#{item.get('de_25_Ate_34_anos')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="de 35 Até 44 anos"/>
+                </f:facet>	
+                <h:outputText value="#{item.get('de_35_Ate_44_anos')}"  />						
+            </p:column>                        
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="de 45 Até 54 anos"/>
+                </f:facet>	
+                <h:outputText value="#{item.get('de_45_Ate_54_anos')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="de 55 Até 65 anos"/>
+                </f:facet>	
+                <h:outputText value="#{item.get('de_55_Ate_65_anos')}"  />						
+            </p:column>
+            <p:column>
+                <f:facet name="header">
+                    <h:outputText value="mais de 65 anos"/>
+                </f:facet>	
+                <h:outputText value="#{item.get('mais_de_65_anos')}"  />						
+            </p:column>                                
+  
+                             
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Total"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('total')}"/>					
+                        </p:column>      
+                      </p:dataTable>
+                      </h:form>
+                </p:tab>       
+               </p:accordionPanel>            
+           
+           
+        </p:panel> 
+    </ui:define>
+
+</ui:composition>
+
+    </body>
+</html>

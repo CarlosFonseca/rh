@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+     <ui:composition template="/net/template.xhtml">
+         <ui:define name="title">
+             <h:outputText value="Consulta dos Quadros de Pessoal"/>
+         </ui:define>
+
+         <ui:define name="body">            
+        <h:form id="frm">
+            <p:panel header="Pesquisa dos Quadros de Pessoal" >
+                <p:messages />
+                <span id="workingIndicator" style="display: none; position:absolute; top: 32px;">
+                    <h:graphicImage value="#{resource['icons:ajax-loader.gif']}" />                      
+                </span>
+                <p />                                    
+                &nbsp;&nbsp;&nbsp;Empresa :
+                <h:selectOneMenu value="#{qPController.qacEmpresas}" id="Empresas"  >
+                    <f:selectItems value="#{pgqacEmpresasController.itemsAvailableSelectMany}"/>
+                    <f:ajax render="AreasNegocio Estruturas Estabelecimentos AreasNegocioEstab" onevent="showWorkingIndicator" />
+                </h:selectOneMenu>
+                <p:message for="Empresas" id="msgEmpresa" />
+            <p/>
+<!--_______________________________-->
+<p:tabView activeIndex="#{qPController.tabIndex}" >              
+                <p:tab title="Quadro de Pessoal por Direcção">                    
+                    <h:panelGrid columns="4">
+                        Direcção :
+                        <h:selectOneMenu value="#{qPController.qacAreasNegocio}" id="AreasNegocio" disabled="#{qPController.disableSelectores}"  >
+                            <f:selectItems value="#{pgqacAreasNegocioController.ItemsAvailableSelectOneByEmpresa(qPController.empresa)}"/>
+                        </h:selectOneMenu>
+                        <h:commandButton value="pdf" action="#{qPController.direccaoExpPDF}"/>
+                        <h:commandButton value="Consultar">
+                            <f:ajax render="dttQuadro" execute="AreasNegocio" onevent="showWorkingIndicator"/>
+                        </h:commandButton>
+                        <p:message for="AreasNegocio" />
+                    </h:panelGrid>
+                </p:tab>
+
+<!--_______________________________-->
+
+                <p:tab title="Quadro de Pessoal por Estrutura">
+                    <h:panelGrid columns="5">
+                        Área :
+                        <h:selectOneMenu value="#{qPController.qacEstruturas}" id="Estruturas" disabled="#{qPController.disableSelectores}"  >
+                            <f:selectItems value="#{pgqacEstruturasController.ItemsAvailableSelectOneByEmpresa(qPController.empresa)}"  />
+                        </h:selectOneMenu>
+                        <h:commandButton value="pdf" action="#{qPController.estruturaExpPDF}"  />
+                        <h:commandButton value="Consultar">
+                            <f:ajax render="dttQuadro" execute="Estruturas" onevent="showWorkingIndicator"/>
+                        </h:commandButton>                        
+                        <p:message for="Estruturas"/>
+                   </h:panelGrid>
+                </p:tab>
+
+<!--_______________________________-->
+
+            <p:tab title="Quadro de Pessoal por Direcção \ Estabelecimento">
+                    <h:panelGrid columns="4">
+                        Estab :
+                        <h:selectOneMenu value="#{qPController.qacEstabelecimentos}" id="Estabelecimentos" disabled="#{qPController.disableSelectores}"  >
+                            <f:selectItems value="#{pgqacEstabelecimentosController.ItemsAvailableSelectOneByEmpresa(qPController.empresa)}"   />
+                        </h:selectOneMenu>
+                        <h:inputHidden value="."/>
+                         <h:inputHidden value="."/>
+                       Direcção:
+                        <h:selectOneMenu value="#{qPController.qacAreasNegocioEstab}" id="AreasNegocioEstab" disabled="#{qPController.disableSelectores}" >
+                            <f:selectItems value="#{pgqacAreasNegocioController.ItemsAvailableSelectOneByEmpresa(qPController.empresa)}"/>
+                        </h:selectOneMenu>
+                       <h:commandButton value="pdf" action="#{qPController.direccaoEstabExpPDF}"  />
+                        <h:commandButton value="Consultar">
+                            <f:ajax render="dttQuadro" execute="Estabelecimentos AreasNegocioEstab" onevent="showWorkingIndicator"/>
+                        </h:commandButton>                       
+                 </h:panelGrid>
+                </p:tab>
+            </p:tabView>
+
+<!--_______________________________-->
+<br/> 
+   <div align="right" >
+        <h:commandLink style="color:white;" >
+        <h:graphicImage name="xls.png" library="icons"  />
+        <p:dataExporter type="xls" target="dttQuadro" fileName="quadro" pageOnly="true" />
+    </h:commandLink>
+
+     <h:commandLink style="color:white" rendered="false"  >
+        <h:graphicImage name="pdf.png" library="icons" />
+        <p:dataExporter type="pdf" target="dttQuadro" fileName="quadro" pageOnly="true" />
+    </h:commandLink>
+
+    <h:commandLink style="color:white">
+        <h:graphicImage name="csv.png" library="icons" />
+        <p:dataExporter type="csv" target="dttQuadro" fileName="quadro" pageOnly="true" />
+    </h:commandLink>
+
+    <h:commandLink style="color:white">
+        <h:graphicImage name="xml.png" library="icons" />
+        <p:dataExporter type="xml" target="dttQuadro" fileName="quadro" pageOnly="true" />
+    </h:commandLink>
+    </div>
+    <p:dataTable value="#{qPController.items}"  var="quadro" id="dttQuadro"
+                         rows="10" paginator="true" paginatorPosition="#{qPController.quadro.size()>0?'bottom':''}"
+                         emptyMessage="Não existem registros"
+                         paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                            {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                            rowsPerPageTemplate="5,10,15,#{qPController.quadro.size()}">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nre" />
+                        </f:facet>
+                        <h:outputText value="#{quadro.infoEmpresasPK.cadNre}" />
+                    </p:column>
+                <p:column >
+                       <f:facet name="header">
+                            <h:outputText value="Nome" />
+                        </f:facet>
+                       <h:outputText value="#{quadro.cadastros.nomeRedz} #{quadro.cadastros.titulo}"/>
+                    </p:column>
+                   <p:column>
+                       <f:facet name="header">
+                            <h:outputText value="Dt_Nasc" />
+                        </f:facet>
+                        <h:outputText value="#{quadro.cadastros.dtNasc}">
+                            <f:convertDateTime pattern="dd-MM-yyyy"  />
+                        </h:outputText>
+                    </p:column>
+                   <p:column>
+                       <f:facet name="header">
+                            <h:outputText value="Admissão" />
+                        </f:facet>
+                        <h:outputText value="#{quadro.cadastros.infoGeral.dtAdmiss}">
+                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>
+                    </p:column>
+                   <p:column>
+                       <f:facet name="header">
+                            <h:outputText value="Habilitações" />
+                       </f:facet>
+                       <h:outputText value="#{quadro.cadastros.cdHabLit.dsRedz}" />
+                    </p:column>
+                   <p:column>
+                       <f:facet name="header">
+                            <h:outputText value="Grp" />
+                        </f:facet>
+                        <h:outputText value="#{quadro.cadastros.infoGeral.cdGrupo}" />
+                    </p:column>
+                     <p:column>
+                       <f:facet name="header">
+                            <h:outputText value="Nível" />
+                        </f:facet>
+                        <h:outputText value="#{quadro.cadastros.infoGeral.cdNivel}" />
+                    </p:column>
+                   <p:column>
+                       <f:facet name="header">
+                            <h:outputText value="Dt_Nível" />
+                        </f:facet>
+                        <h:outputText value="#{quadro.cadastros.infoGeral.dtNivel}">
+                            <f:convertDateTime pattern="dd-MM-yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                       <f:facet name="header">
+                            <h:outputText value="IHT" />
+                        </f:facet>
+                        <h:outputText value="#{pgremuneracoesEmpregadoController.iht(quadro.cadastros.nre)}" />
+                    </p:column>
+                   <p:column>         
+                       <f:facet name="header">
+                            <h:outputText value="Categoria" />
+                        </f:facet>
+                       <h:outputText value="#{quadro.cadastros.infoProfs.cdFuncao.dsRedz}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Função" />
+                        </f:facet>
+                        <h:outputText value="#{quadro.cadastros.infoProfs.cdFuncInt.dsRedz}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header" >
+                            <h:outputText value="Situação" />
+                        </f:facet>
+                        <h:outputText value="#{quadro.cadastros.cdSituacao.dsRedz}" />    
+                    </p:column>          
+                    <p:column>
+                        <f:facet name="header" >
+                            <h:outputText value="Estrutura" />
+                        </f:facet>
+                        <h:outputText value="#{quadro.qacEstruturas.dsComp}" />    
+                    </p:column>
+
+       </p:dataTable>
+  
+        </p:panel>       
+        </h:form>
+        </ui:define>
+ </ui:composition>
+    
+</html>

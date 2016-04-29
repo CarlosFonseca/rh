@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+    <ui:composition template="/net/template.xhtml">
+    <ui:define name="title">
+        Indicadores de Gestão
+    </ui:define>
+    
+    <ui:define name="body">
+            <ui:include src="./../menubar.xhtml" /> 
+            <br/>
+        <p:panel id="cd2"  header="Movimentaçoes de Pessoal">
+                        <h:form prependId="false" >
+                         <p:ajaxStatus style="width:16px;height:16px;" id="ajaxStatusPanel">  
+                            <f:facet name="start">  
+                                <h:graphicImage value="#{resource['icons:ajax-loader.gif']}" />   
+                            </f:facet>        
+                            <f:facet name="complete">  
+                                <h:outputText value="" />  
+                            </f:facet>  
+                        </p:ajaxStatus>
+                         <p/>
+                            <h:outputLabel value="Empresa: "/>
+                            <h:selectOneMenu value="#{movimentacoesController.qacEmpresas}">
+                                <f:selectItems value="#{qacEmpresasController.itemsAvailableSelectMany}"/>
+                                <p:ajax update="@form"  />
+                            </h:selectOneMenu>
+                            &nbsp;&nbsp;&nbsp;
+                            <h:outputLabel value="Ano: "/>
+                            <h:selectOneMenu value="#{movimentacoesController.ano}">
+                                <f:selectItems value="#{movimentacoesController.anos}"/>
+                                <p:ajax update="@form"  />
+                            </h:selectOneMenu>
+                            <br/><br/><br/>
+                     <p:dataTable value="#{movimentacoesController.movimentacoesPorEmpresas}" var="item"  id="tblactual" 
+                                  emptyMessage="Não existem dados" > 
+                      <f:facet name="header">
+                        <h:panelGroup layout="block" style="text-align: left;" >
+                        <h:commandLink>
+                            <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                            <p:dataExporter type="xls" target="tblactual" fileName="tabela"/>
+                        </h:commandLink>&nbsp;
+                        <h:commandLink>
+                            <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                            <p:dataExporter type="csv" target="tblactual" fileName="tabela"/>
+                        </h:commandLink> 
+                        </h:panelGroup>
+                    </f:facet>                                
+                       <p:column>                          
+                        <f:facet name="header" >
+                            <h:outputText value="Empresa" />
+                        </f:facet>
+                        <h:outputText value="#{item[0]}" />    
+                      </p:column>                            
+                       <p:column style="text-align:center">
+                        <f:facet name="header" >
+                            <h:outputText value="Ano" />
+                        </f:facet>
+                        <h:outputText value="#{item[1]}" />    
+                      </p:column>
+                      <p:column style="text-align:center">
+                        <f:facet name="header" >
+                            <h:outputText value="Mês" />
+                        </f:facet>
+                        <h:outputText value="#{item[2]}" />    
+                      </p:column>
+                        <p:column style="text-align:center">
+                        <f:facet name="header" >
+                            <h:outputText value="Quadro" />
+                        </f:facet>
+                        <h:outputText value="#{item[3]}" />    
+                        </p:column>
+                        <p:column style="text-align:center">
+                            <f:facet name="header" >
+                                <h:outputText value="Entradas"/>
+                            </f:facet>	
+                            <h:outputText value="#{item[4]}"  />						
+                        </p:column>
+                        <p:column style="text-align:center">
+                            <f:facet name="header" >
+                                <h:outputText value="Transf. Ent."/>
+                            </f:facet>	
+                            <h:outputText value="#{item[5]}"  />						
+                        </p:column>
+                        <p:column style="text-align:center">
+                            <f:facet name="header" >
+                                <h:outputText value="Transf. Saíd."/>
+                            </f:facet>	
+                            <h:outputText value="#{item[6]}"  />						
+                        </p:column>
+                        <p:column style="text-align:center">
+                            <f:facet name="header">
+                                <h:outputText value="Saídas"/>
+                            </f:facet>	
+                            <h:outputText value="#{item[7]}" />						
+                        </p:column>
+                        <p:column style="text-align:center">
+                            <f:facet name="header">
+                                <h:outputText value="Variação"/>
+                            </f:facet>	
+                            <h:outputText value="#{item[8]}" />						
+                        </p:column>
+
+                         <p:columnGroup type="footer">
+                             <p:row>
+                            <p:column colspan="4" footerText="Totais:"  style="text-align:right"  />
+                            <p:column footerText="#{movimentacoesController.totalEntradas}" /> 
+                            <p:column footerText="#{movimentacoesController.totalMovEntr}" />
+                            <p:column footerText="#{movimentacoesController.totalMovSai}" /> 
+                            <p:column footerText="#{movimentacoesController.totalSaida}" />
+                            <p:column footerText="#{movimentacoesController.variacao}" />
+
+                             </p:row>
+                         </p:columnGroup>  
+
+                     </p:dataTable>
+                      </h:form>       
+           </p:panel>  
+
+    </ui:define>
+
+</ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,155 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+    <ui:composition template="/net/template.xhtml">
+    <ui:define name="title">
+         Indicadores de Gestão
+    </ui:define>
+    
+    <ui:define name="body">
+        <ui:include src="./../menubar.xhtml" /> 
+            <br/>
+            <p:panel id="cd5" header="Níveis Contratuais" >
+                <p:accordionPanel>
+                    <p:tab title="Actual" >
+                        <h:form prependId="false" >
+                            <p:dataTable value="#{qPIndicadoresController.totalporNivel}" var="totalporNivel" style="width: 768px"  >
+                                <p:column style="width: 500px"  >
+                            <f:facet name="header">
+                                <h:outputText value="Empresas"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporNivel.get('siglaE')}"/>						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="1 a 4"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporNivel.get('1_a_4')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="5 a 8"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporNivel.get('5_a_8')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="9 a 12"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporNivel.get('9_a_12')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="13 a 15"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporNivel.get('13_a_15')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="16 a 18"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporNivel.get('16_a_18')}"  />						
+                        </p:column>                                
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Total"/>
+                            </f:facet>	
+                            <h:outputText value="#{totalporNivel.get('total')}"  />						
+                        </p:column>                                 
+                        </p:dataTable>
+                      </h:form>
+                  </p:tab>
+                    <p:tab title="Histórico">  
+
+                     <h:form prependId="false" >
+                         <p:dataTable value="#{histQPController.porNivel}" var="item" id="tblbase"
+                                        rows="10" paginator="true" paginatorPosition="bottom"
+                                        paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks}
+                                                            {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="5,10,15,20 "  style="width: 818px"  >
+
+                              <f:facet name="header">
+                                <h:panelGroup layout="block" style="text-align: left;" >
+                                <h:commandLink>
+                                    <h:graphicImage name="xls.png" library="icons" title="Exporta para Excel" />
+                                    <p:dataExporter type="xls" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink>&nbsp;
+                                <h:commandLink>
+                                    <h:graphicImage name="csv.png" library="icons" title="Exporta para csv" />
+                                    <p:dataExporter type="csv" target="tblbase" fileName="tabela" pageOnly="true"/>
+                                </h:commandLink> 
+                                </h:panelGroup>
+                            </f:facet>         
+                        <p:column sortBy="#{item.empresa}" filterBy="#{item.empresa}" >
+                            <f:facet name="header">
+                                <h:outputText value="Empresas"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('empresa')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.initState}" filterBy="#{item.initState}">
+                            <f:facet name="header">
+                                <h:outputText value="Ano"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('ano')}"  />						
+                        </p:column>
+                        <p:column sortBy="#{item.level}" filterBy="#{item.level}">
+                            <f:facet name="header">
+                                <h:outputText value="Mês"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('mes')}"  />						
+                        </p:column>
+                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="1 a 4"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('1_a_4')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="5 a 8"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('5_a_8')}"  />						
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="9 a 12"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('9_a_12')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="13 a 15"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('13_a_15')}"  />						
+                        </p:column>                        
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="16 a 18"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('16_a_18')}"  />						
+                        </p:column>      
+                             
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="Total"/>
+                            </f:facet>	
+                            <h:outputText value="#{item.get('total')}"/>					
+                        </p:column>      
+                      </p:dataTable>
+                      </h:form>
+                </p:tab>       
+               </p:accordionPanel> 
+                    </p:panel>
+    </ui:define>
+
+</ui:composition>
+
+    </body>
+</html>
